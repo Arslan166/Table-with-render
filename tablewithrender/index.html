@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>J-query table</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"> </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"> </script>
+	<title>J-query Popup Form</title>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script type="text/javascript" charset="utf8"
+		src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+	<!--<script src="https//code.jquery.com/jquery-1.11.0.min.js"></script>-->
+	<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+
+
+</head>
+
+<body>
+	<!--Modal with form-->
+	<button type="button" class="btn btn-primary p-2 m-2" data-toggle="modal" data-target="#exampleModalCenter">
+		<i class="fas fa-plus"></i>Add</button>
+	<div class="modal fade boxposition" id="exampleModalCenter" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<!--<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>-->
+				<div class="modal-body">
+					<section class="form-on-page" id="myForm">
+						<div class="panel panel-primary">
+							<div class="panel-heading text-center">
+								<h4 class="heading-form text-center text-white">Registration Form:</h4>
+							</div>
+							<div class="panel-body">
+								<div id="contactform">
+									<form method="Post" id="formsubmit" class="form-container">
+										<section class="form-group">
+											<label for="idvalue">Id Number:</label>
+											<input type="text" class="form-control" id="idvalue" name="idvalue"
+												required="" />
+										</section>
+										<section class="form-group">
+											<label for="fname">First Name:</label>
+											<input type="text" class="form-control" id="fname" name="fname"
+												required="" />
+										</section>
+										<section class="form-group">
+											<label for="lname">Last Name:</label>
+											<input type="text" class="form-control" id="lname" name="lname"
+												required="" />
+										</section>
+										<section class="form-group">
+											<label for="email">Email:</label>
+											<input type="email" class="form-control" id="email" name="Email"
+												required="" />
+										</section>
+										<section class="form-group">
+											<label for="Password">Password:</label>
+											<input type="password" class="form-control" id="Password" name="Password"
+												required="" />
+										</section>
+										<section class="form-group" id="checkboxset1">
+											<input type="checkbox" id="checkboxset" />
+											<label for="checkboxset"> I agree all statments in <a href="#">Terms of
+													Services</a></label>
+										</section>
+										<section id="msgterms" name="msgterms"></section>
+										<!--<input type="submit" class=" button btn btn-primary p-2" value="SUBMIT" id="submit_btn">-->
+										<button type="submit" class="btn btn-primary" id="save-btn">Save</button>
+										<button class='btn btn-success' id='btn-update'>Update</button>
+									</form>
+								</div>
+
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" id="saveModalButton" class="btn btn-primary" data-dismiss="modal">Save
+						changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr style="width:100%;height:2px;text-align:left;margin-left:0;background-color:black">
+	<!--Table-->
+	<div class="divContainer">
+		<table id="tableset" class="display " width="100%">
+
+		</table>
+	</div>
+	<!---->
+	<!---->
+    <input type="hidden" id="hdId" />
+
+
+	<script>
+
+		//validation//
+		$("#formsubmit").validate({
+			errorClass: "error fail-alert",
+			validClass: "valid success-alert",
+			rules: {
+				idvalue: {
+					required: true,
+
+				},
+				fname: {
+					required: true,
+
+				},
+				lname: {
+					required: true,
+
+				},
+				email: {
+					required: true,
+					email: true
+				},
+				Password: {
+					required: true,
+				},
+				checkboxset: {
+					required: true,
+				},
+
+			},
+			messages: {
+				idvalue: {
+					required: "Please Fill this input Field",
+
+				},
+				fname: {
+					required: "Please Fill this input Field",
+				},
+				lname: {
+					required: "Please Fill this input Field",
+				},
+				email: {
+					required: "The email should be in the format: abc@domain.tld",
+					email: "The email should be valid",
+				},
+				Password: {
+					required: "Please Enter the Correct Password",
+				},
+				checkboxset: {
+					required: "Please Accept the Policy",
+				},
+
+			}
+		});
+
+		var mycheckbox = function (status, str) {
+			if (status == "NOTOK") {
+				$("#checkboxset1").css({
+					"border-color": "red",
+					"border-width": "1px",
+					"border-style": "solid"
+				});
+			}
+			else {
+				$("#checkboxset1").css({
+					'border-color': '',
+					"border-width": "0px"
+				});
+			}
+			$("#msgterms").html(str);
+		}
+		$("#checkboxset").click(function () {
+			var checkboxset_status = $("#checkboxset").prop("checked");
+			if (checkboxset_status) {
+				mycheckbox("OK", " Thanks for Agree the ...........");
+			}
+			else {
+				mycheckbox("NOTOK", "You must agree to terms and conditions before submit the form");
+			}
+
+
+		});
+
+		$("#save-btn").click(function (event) {
+			var checkboxset_status = $("#checkboxset").prop("checked");
+			if (checkboxset_status) {
+				mycheckbox("OK", " Thanks for Agree the ...........");
+			}
+			else {
+				mycheckbox("NOTOK", "You must agree to terms and conditions before submit the form");
+			}
+		});
+
+
+		var dataSet = [
+			
+		    {Id:"1",fName:"Adnan",lName:"Mustafa",password:"1234567890",email:"amustafa@xavor.com"}
+
+		];
+
+		function reDrawTable(dataSet)
+		{
+			datatable.clear().rows.add(dataSet).draw();
+		}
+
+        var datatable = null;
+		$(document).ready(function () {
+			datatable = $('#tableset').DataTable({
+				data: dataSet,
+				columns: [
+					{ title: "Id Number", data:"Id" },
+					{ title: "First Name",data:"fName" },
+					{ title: "Last Name",data:"lName"},
+					{ title: "Email",data:"email" },
+					{ title: "Password",data:"password" },
+					{
+						title: "Discard",
+						render: function (data, type, row, meta) {
+
+							return "<button type='button' class='btn-xs btn btn-danger'  id='btn-delete'>DELETE</button><button class='btn btn-info btn-xs' id='btn-edit'>Edit</button>";
+
+							//return "<button onclick='EditRow(this)'  class='btn btn-xs btn-success'>Edit</button><button onclick='Delete(this)' class='btn btn-xs btn-warning'>Delete</button>";
+						}
+					},
+				]
+
+			});
+
+
+
+			debugger;
+
+			//DELETE THE ROW single in table
+			/*var table = $('#tableset').DataTable();
+			$('tr').on("click", function (e) {
+				index = $(this).closest('tr').index();
+				table.row($(this)).remove().draw();
+			});*/
+
+			$("#formsubmit").submit(function (e) {
+				e.preventDefault();
+				debugger;
+				var idvalue = Math.random();
+				var fname = $("input[name='fname']").val();
+				var lname = $("input[name='lname']").val();
+				var Email = $("input[name='Email']").val();
+				var Password = $("input[name='Password']").val();
+                debugger;
+				if($("#hdId").val() > 0)
+				{
+					// Edit Case
+				}
+				else{
+					// Add Case
+					var obj = {Id:idvalue,fName:fname,lName:lname,password:Password,email:Email};
+					dataSet.push(obj);
+					reDrawTable(dataSet);
+				}
+
+				$("#exampleModalCenter").modal("hide");
+
+
+				$("input[name='idvalue']").val('');
+				$("input[name='fname']").val('');
+				$("input[name='lname']").val('');
+				$("input[name='Email']").val('');
+				$("input[name='Address']").val('');
+			});
+			$("body").on("click", "#btn-delete", function () {
+				$(this).parents("tr").remove();
+			});
+
+			$("body").on("click", "#btn-edit", function () {
+				var idvalue = $(this).parents("tr").attr('tablesetidvalue');
+				var fname = $(this).parents("tr").attr('tablesetfname');
+				var lname = $(this).parents("tr").attr('tablesetlname');
+				var Email = $(this).parents("tr").attr('tablesetEmail');
+				var Password = $(this).parents("tr").attr('tablesetPassword');
+
+				//$(this).parents("tr").find("td:eq(0)").html('<input name="edit_idvalue" value="' + idvalue + '">');
+				//$(this).parents("tr").find("td:eq(1)").html('<input name="edit_fname" value="' + fname + '">');
+				//$(this).parents("tr").find("td:eq(2)").html('<input name="edit_lname" value="' + lname + '">');
+				//$(this).parents("tr").find("td:eq(3)").html('<input name="edit_Email" value="' + Email + '">');
+				//$(this).parents("tr").find("td:eq(4)").html('<input name="edit_Password" value="' + Password + '">');
+
+				//$("a#saveModalButton").attr('href', window.location.href+'/update/'+id);
+				//$(this).parents("tr").find("td:eq(4)").prepend("<button class='btn btn-success btn-xs' id='btn-update'>Update</button><button class='btn btn-warning btn-xs' id='btn-cancel'>Cancel</button>");
+				//$(this).hide();
+
+			});
+			/*$("body").on("click", "#btn-cancel", function () {
+				var idvalue = $(this).parents("tr").attr('tablesetidvalue');
+				var fname = $(this).parents("tr").attr('tablesetfname');
+				var lname = $(this).parents("tr").attr('tablesetlname');
+				var Email = $(this).parents("tr").attr('tablesetEmail');
+				var Password = $(this).parents("tr").attr('tablesetPassword');
+
+				$(this).parents("tr").find("td:eq(0)").text(idvalue);
+				$(this).parents("tr").find("td:eq(1)").text(fname);
+				$(this).parents("tr").find("td:eq(2)").text(lname);
+				$(this).parents("tr").find("td:eq(3)").text(Email);
+				$(this).parents("tr").find("td:eq(4)").text(Password);
+
+				$(this).parents("tr").find("#btn-edit").show();
+				$(this).parents("tr").find("#btn-update").remove();
+				$(this).parents("tr").find("#btn-cancel").remove();
+			});*/
+
+
+			$("body").on("click", "#btn-update", function () {
+				var idvalue = $(this).parents("tr").find("input[name='edit_idvalue']").val($(this).parents('tr').children()[0].textContent);
+				var fname = $(this).parents("tr").find("input[name='edit_fname']").val($(this).parents('tr').children()[1].textContent);
+				var lname = $(this).parents("tr").find("input[name='edit_lname']").val($(this).parents('tr').children()[2].textContent);
+				var Email = $(this).parents("tr").find("input[name='edit_Email']").val($(this).parents('tr').children()[3].textContent);
+				var Password = $(this).parents("tr").find("input[name='edit_Password']").val$(this).parents('tr').children()[4].textContent();
+
+
+				$(this).parents("tr").find("td:eq(0)").text(idvalue);
+				$(this).parents("tr").find("td:eq(1)").text(fname);
+				$(this).parents("tr").find("td:eq(2)").text(lname);
+				$(this).parents("tr").find("td:eq(3)").text(Email);
+				$(this).parents("tr").find("td:eq(4)").text(Password);
+
+
+				$(this).parents("tr").attr('tablesetidvalue', idvalue);
+				$(this).parents("tr").attr('tablesetfname', fname);
+				$(this).parents("tr").attr('tablesetlname', lname);
+				$(this).parents("tr").attr('tablesetEmail', Email);
+				$(this).parents("tr").attr('tablesetPassword', Password);
+
+				$(this).parents("tr").find("#btn-edit").show();
+				$(this).parents("tr").find("#btn-cancel").remove();
+				$(this).parents("tr").find("#btn-update").remove();
+
+			});
+
+
+
+
+
+			$('#tableset #btn-edit').on('click', function () {
+				$("#exampleModalCenter").modal("show");
+				$("#idvalue").val($(this).parents('tr').children()[0].textContent);
+				$("#fname").val($(this).parents('tr').children()[1].textContent);
+				$("#lname").val($(this).parents('tr').children()[2].textContent);
+				$("#email").val($(this).parents('tr').children()[3].textContent);
+				$("#Password").val($(this).parents('tr').children()[4].textContent);
+
+			});
+
+
+
+
+
+
+
+
+
+
+
+			/*$('#tableset ').on('click', '#btn-update', function () {
+				var first = $(this).find('td:eq(0)').text();
+				var last = $(this).find('td:eq(1)').text();
+				var E_mail = $(this).find('td:eq(2)').text();
+				var Pswd = $(this).find('td:eq(3)').text();
+				
+				
+	
+				/*alert(first);
+				alert(last);
+				alert(E_mail);
+				alert(Pswd);
+	
+				
+			});*/
+
+
+
+			/*var table = $('tableset').DataTable();
+	
+			$('#tableset tbody').on('click', 'tr', function () {
+				console.log(table.row(this).data());
+			});*/
+			// delete the selected row
+			/*$(document).ready(function () {
+				var table = $('#tableset').DataTable();
+				$('#tableset tbody').on('click', 'tr', function () {
+					if ($(this).hasClass('selected')) {
+						$(this).removeClass('selected');
+					}
+					else {
+						table.$('tr.selected').removeClass('selected');
+						$(this).addClass('selected');
+					}
+				});
+				$('#button').click(function () {
+					table.row('.selected').remove().draw(false);
+				});
+			});*/
+
+
+		});
+	</script>
+
+
+</body>
+
+</html>
